@@ -18,6 +18,7 @@
       "js": ["content.js"]
     }
   ],
+
   "background": {
     "scripts": ["background.js"]
   },
@@ -29,6 +30,6 @@
   "permissions": [
     "activeTab",
     "storage",
-    "notifications"
+    "tabs"
   ]
 }

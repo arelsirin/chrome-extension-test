@@ -38,10 +38,30 @@ function setDefaultValues() {
 	});
 }
 
-setDefaultValues();
+/**
+ * Closes the tab with the given id
+ * @param tabId - the id of the tab
+ */
+function closeTab(tabId) {
+	chrome.tabs.remove(tabId);
+}
 
 /**
- * When a new tab is opened, check against the limit and close the oldest one
+ * Sends a single message to the content script(s) in the specified tab
+ */
+function sendMessage(tabId) {
+	chrome.tabs.sendMessage(tabId, {"message": "first_tab_closed"}, function() {
+		if (chrome.runtime.lastError) {
+			alert(chrome.runtime.lastError.message);
+		}
+	});
+}
+
+setDefaultValues();
+var newTabId = 0;
+
+/**
+ * When a new tab is opened, check against the limit and close the first one
  * if limit is exceeded.
  */
 chrome.tabs.onCreated.addListener(function(tab){
@@ -52,7 +72,9 @@ chrome.tabs.onCreated.addListener(function(tab){
 				if (!chrome.runtime.lastError && item.tabsLimit) {
 					chrome.tabs.query({currentWindow: true}, function(tabs) {
 						if (tabs.length > item.tabsLimit) {
-							chrome.tabs.remove(tabs[0].id);
+							// close first tab
+							closeTab(tabs[0].id);
+							newTabId = tab.id;
 						}
 					});
 				} else {
@@ -61,7 +83,15 @@ chrome.tabs.onCreated.addListener(function(tab){
 			});
 		}
 	});
-})
+});
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+	if (message.message == 'tab_complete' && sender.tab.id == newTabId) {
+		sendResponse({"message": "first_tab_closed"});		
+	}
+});
+
+
 
 
 
