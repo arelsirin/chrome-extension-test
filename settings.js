@@ -1,7 +1,7 @@
 /**
  * Setup settings
  */
- function setupSettings() {
+ function init() {
  	var limitInput = document.getElementById('tabs-limit');
 
  	// set the default value to the tab limit input
@@ -13,9 +13,9 @@
 
 	// store selected tabsLimit
  	limitInput.onchange = function () {
- 		storeValue('tabsLimit', limitInput.value);
+ 		chrome.extension.getBackgroundPage().storeValue('tabsLimit', limitInput.value);
  	}
 
  }
 
-document.addEventListener('DOMContentLoaded', setupSettings());
+document.addEventListener('DOMContentLoaded', init());
