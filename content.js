@@ -1,1 +1,0 @@
-alert('Hola! from your Chrome Extenstion Test');
