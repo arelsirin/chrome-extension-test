@@ -1,0 +1,22 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+    <head>
+        <title>Chrome Extension Test - Options</title>
+        <link rel="stylesheet" type="text/css" href="assets/style.css">
+    </head>
+    <body>
+        <div class="main-container">
+            <h4>Chrome Extension Test - Options</h4>
+            <p>Tabs Limit <span class="detail">(the max number of tabs)</span></p>
+            <input type="number" id="tabs-limit" />
+        </div>
+        <script src="utils.js"></script>
+        <script src="settings.js"></script>
+    </body>
+</html>
+
